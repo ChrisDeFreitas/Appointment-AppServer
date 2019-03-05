@@ -1,9 +1,13 @@
 Overview  
 ===  
 - This server application was built to meet the requirements of software engineering position as such it is not a fully realized application (with well defined spec etc.).  
-- the application uses the Zend Expressive Framework and PHPUnit
+- the application uses the Zend Expressive Framework, PHPUnit, and PDO for data access
+- all code pass PHP_CodeSniffer via "composer check"  
+- unit tests are integrated into the framework so "composer test" will run all unit tests  
 - a client application was not created because of time constraints (./public/index.html is the first steps towards that).  
 - opening a browser to http://localhost:8080 shows a page with available API endpoints (./public/index.html)  
+- all Action and test files have a $debug variable; when true debug messages are sent to stderr, the server's console output  
+- to debug an Action's database calls change $this->dbInit(false); to $this->dbInit(true);  
 
 
 Zend Expressive Framework Errors
@@ -24,8 +28,8 @@ $ composer expressive handler:create "App\Handler\HelloHandler"
 - resolved by followinig PingAction.php and associated code to create Actions  
 - this may be related to the application versions on my system  
 
-4. Expressive does not return a version number
-$ ./vendor/bin/expressive -V
+4. Expressive does not return a version number  
+$ ./vendor/bin/expressive -V  
 
 - returns: expressive %version%
 - no resolution at this time  
@@ -34,7 +38,7 @@ $ ./vendor/bin/expressive -V
 
 Security  
 ===  
-- An application like this begs for security.  Unfortunately, time and obligations did not permit implementation.  Rather than use a synthetic approach with simulated session IDs etc I chose to leave it alone.  Note, however, the Framework and Actions will accept any security method as written.
+- An application like this begs for security.  Unfortunately, time and obligations did not permit implementation.  Rather than use a synthetic approach with simulated session IDs etc I chose to leave it alone.  Note, however, the Framework and Actions as written will accept any security method.  
 - all submitted data is sanitized  
 
 
@@ -53,7 +57,7 @@ Data
 	);  
 
 - Default records:  
-	Insert Into appts (patient, reason, starttime, endtime) Values  
+	INSERT INTO appts (patient, reason, starttime, endtime) VALUES  
      ('Bill Bailey', 'Brain Fog', 1546300800, 1546302600),  
      ('Emma Stone', 'Weight Gain', 1546302600, 1546304400),  
      ('Frankie', 'Travel Itch', 1546304400, 1546306200)  
@@ -73,11 +77,11 @@ Notes
 ===
 - start and end times are stored as UNIX timestamps (number of seconds since Jan 1/1970)  
 - start and end times are exchanged with the client as MySQL date strings (YYYY-MM-DD HH:MM)  
-- the application will accept dates compatible with PHP's strtotime function, see http://php.net/manual/en/datetime.formats.compound.php  
+- the application will accept dates compatible with PHP's strtotime(), see http://php.net/manual/en/datetime.formats.compound.php  
 - SQLite's datetime() will convert timestamps to a MySQL data string format  
 - SQLite's strftime() will convert from a string date to UNIX timestamp  
 - SQL example of date conversions:  
-select starttime, datetime(starttime, 'unixepoch'), strftime('%s',	datetime(starttime, 'unixepoch')) from appts  
+SELECT starttime, datetime(starttime, 'unixepoch'), strftime('%s',	datetime(starttime, 'unixepoch')) FROM appts  
 
 
 API Endpoints  
@@ -94,7 +98,7 @@ Application Versions used for Development
 - Debian v9.5 with LXDE Desktop  
 - PHP 7.0.33  
 - PHP Unit v6.5.14  
-- Zend Expressive v%version% (hard coded error returning version number)  
+- Zend Expressive (assume version 3)  
 - Composer v1.2.2  
 - FireFox 60 ESR  
 

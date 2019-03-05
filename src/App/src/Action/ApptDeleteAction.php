@@ -66,7 +66,7 @@ class ApptDeleteAction extends ApptActionBase implements ServerMiddlewareInterfa
         $sql .= " Where id={$id}";
 
         try {
-            $this->dbInit(true);
+            $this->dbInit(false);
             $result = $this->db->exec($sql);
             if ($result === 1) {        //one record deleted
                 $msg = "Record deleted";

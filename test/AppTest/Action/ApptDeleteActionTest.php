@@ -16,7 +16,7 @@ use Zend\Diactoros\ServerRequest;
 use App\Action\ApptDeleteAction;
 use App\DB\DB;
 
-$debug = true;     //write messages to stderr
+$debug = false;     //write messages to stderr
 
 class ApptDeleteActionTest extends TestCase
 {
